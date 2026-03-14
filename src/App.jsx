@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from "react";
 
 const TYPING_STRINGS = [
   "Network Engineer",
+  "Cloud & Infrastructure",
   "Systems Administrator",
-  "Python Developer",
-  "CS Student @ SJSU",
   "Problem Solver",
+  "Engineering Technology Student",
+  "CCST Certified",
 ];
 
 function useTypingEffect(strings, speed = 80, pause = 1600) {
@@ -134,7 +135,7 @@ function Hero() {
       }}>
         Junior @ San Jose State University — B.S. Engineering Technology,<br />
         concentration in Computer Network System Management. Building things<br />
-        with networks, code, and hardware. 3.6 GPA. CCST + CCNA certified.
+        with networks, code, and hardware. 3.6 GPA. CCST certified.
       </p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "2.2rem" }}>
         {skills.map(s => (
@@ -153,7 +154,7 @@ function Hero() {
           textDecoration: "none", letterSpacing: "0.1em", fontWeight: "700",
           transition: "background 0.2s",
         }}>CONTACT_ME</a>
-        <a href="https://linkedin.com/in/prabalsingh0111" target="_blank" rel="noreferrer" style={{
+        <a href="https://www.linkedin.com/in/prabal-singh11/" target="_blank" rel="noreferrer" style={{
           padding: "0.65rem 1.5rem", border: "1px solid #0f3", color: "#0f3",
           fontFamily: "'Share Tech Mono', monospace", fontSize: "0.82rem",
           textDecoration: "none", letterSpacing: "0.1em",
@@ -260,7 +261,7 @@ const EXPERIENCE = [
 
 const CERTS = [
   { name: "CCST – Networking", issuer: "Cisco", date: "Dec 2025" },
-  { name: "CCNA: Enterprise Networking, Security & Automation", issuer: "Cisco Networking Academy", date: "Aug 2025" },
+  { name: "CCNA Coursework: Enterprise Networking, Security & Automation", issuer: "Cisco Networking Academy", date: "Aug 2025" },
   { name: "Excel Essential Training", issuer: "Microsoft Office", date: "Jan 2024" },
 ];
 
@@ -365,20 +366,20 @@ function Contact() {
             )}
           </div>
         ))}
-        <a href="https://linkedin.com/in/prabalsingh0111" target="_blank" rel="noreferrer" style={{
-          display: "block", padding: "1rem 1.3rem", border: "1px solid #1a3a1a",
+        <a href="https://www.linkedin.com/in/prabal-singh11/" target="_blank" rel="noreferrer" style={{
+          display: "flex", padding: "1rem 1.3rem", border: "1px solid #1a3a1a",
           background: "#040a04", textDecoration: "none",
-          display: "flex", justifyContent: "space-between", alignItems: "center",
+          justifyContent: "space-between", alignItems: "center",
         }}>
           <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
             <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.7rem", letterSpacing: "0.12em", minWidth: "80px" }}>LINKEDIN</span>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#c8e8c8", fontSize: "0.85rem" }}>prabalsingh0111</span>
+            <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#c8e8c8", fontSize: "0.85rem" }}>prabal-singh11</span>
           </div>
           <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.7rem", letterSpacing: "0.1em" }}>↗ OPEN</span>
         </a>
       </div>
       <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#2a4a2a", fontSize: "0.72rem", marginTop: "4rem", letterSpacing: "0.08em" }}>
-        © 2025 PRABAL SINGH · BUILT WITH REACT
+        © 2026 PRABAL SINGH · BUILT WITH REACT
       </p>
     </section>
   );

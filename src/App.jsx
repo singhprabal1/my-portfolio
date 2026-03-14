@@ -148,12 +148,12 @@ function Hero() {
         ))}
       </div>
       <div style={{ display: "flex", gap: "1rem", marginTop: "2.5rem", flexWrap: "wrap" }}>
-        <a href="mailto:prabals.0111@gmail.com" style={{
+        <button onClick={() => document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' })} style={{
           padding: "0.65rem 1.5rem", background: "#0f3", color: "#050a05",
           fontFamily: "'Share Tech Mono', monospace", fontSize: "0.82rem",
-          textDecoration: "none", letterSpacing: "0.1em", fontWeight: "700",
+          border: "none", cursor: "pointer", letterSpacing: "0.1em", fontWeight: "700",
           transition: "background 0.2s",
-        }}>CONTACT_ME</a>
+        }}>CONTACT_ME</button>
         <a href="https://www.linkedin.com/in/prabal-singh11/" target="_blank" rel="noreferrer" style={{
           padding: "0.65rem 1.5rem", border: "1px solid #0f3", color: "#0f3",
           fontFamily: "'Share Tech Mono', monospace", fontSize: "0.82rem",
@@ -336,7 +336,7 @@ function Contact() {
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <section style={{ minHeight: "80vh", padding: "7rem 2.5rem 4rem", maxWidth: "700px", margin: "0 auto" }}>
+    <section id="contact-section" style={{ minHeight: "80vh", padding: "7rem 2.5rem 4rem", maxWidth: "700px", margin: "0 auto" }}>
       <SectionHeader label="04" title="CONTACT" />
       <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#6b8a6b", fontSize: "0.88rem", lineHeight: 1.85, marginTop: "2rem", maxWidth: "480px" }}>
         Open to internships, collaborations, and interesting problems. Reach out — response time is fast.

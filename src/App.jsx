@@ -289,6 +289,15 @@ function Skills() {
 
 const PROJECTS = [
   {
+    name: "JobRadar",
+    subtitle: "Automated LinkedIn Internship Scraper",
+    date: "Mar 2026",
+    tags: ["Python", "Apify", "Google Sheets API", "REST API", "Automation"],
+    desc: "Built an automated job scraper that searches LinkedIn for internship listings across 20 keywords, filters and deduplicates results, and writes them directly to a Google Sheet. Runs weekly via cron — zero manual searching required.",
+    highlight: "20 keywords · fully automated · REST APIs",
+    github: "https://github.com/singhprabal1/JobRadar",
+  },
+  {
     name: "Hear the Light",
     subtitle: "LED Sound Level Meter",
     date: "May 2025",
@@ -342,6 +351,15 @@ function Projects() {
             <div style={{ marginBottom: "1rem", padding: "0.5rem 0.8rem", background: "#0a180a", borderLeft: "2px solid #0f3" }}>
               <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.72rem" }}>{p.highlight}</span>
             </div>
+            {p.github && (
+              <a href={p.github} target="_blank" rel="noreferrer" style={{
+                display: "inline-block", marginBottom: "1rem",
+                fontFamily: "'Share Tech Mono', monospace", fontSize: "0.72rem",
+                color: "#0f3", letterSpacing: "0.08em", textDecoration: "none",
+                border: "1px solid #1a3a1a", padding: "0.3rem 0.7rem",
+                transition: "background 0.2s",
+              }}>↗ VIEW_ON_GITHUB</a>
+            )}
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
               {p.tags.map(t => (
                 <span key={t} style={{

@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 
 const TYPING_STRINGS = [
-  "Network Engineer",
-  "Cloud & Infrastructure",
+  "Network Development Engineer",
+  "Cloud & AI Infrastructure",
+  "Amazon NDE Intern",
   "Systems Administrator",
   "Problem Solver",
-  "Engineering Technology Student",
   "CCST Certified",
 ];
 
@@ -33,6 +33,28 @@ function useTypingEffect(strings, speed = 80, pause = 1600) {
   }, [charIdx, deleting, idx, strings, speed, pause]);
 
   return display;
+}
+
+// Fades a section in the first time it scrolls into view
+function Reveal({ children, delay = 0 }) {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setShown(true); obs.disconnect(); }
+    }, { threshold: 0.12 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{
+      opacity: shown ? 1 : 0,
+      transform: shown ? "none" : "translateY(28px)",
+      transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+    }}>{children}</div>
+  );
 }
 
 function Navbar({ active, setActive }) {
@@ -107,6 +129,20 @@ function Hero({ scrollTo }) {
       opacity: mounted ? 1 : 0, transform: mounted ? "none" : "translateY(24px)",
       transition: "opacity 0.7s, transform 0.7s",
     }}>
+      {/* live status pill */}
+      <div style={{
+        display: "inline-flex", alignItems: "center", gap: "0.6rem",
+        padding: "0.35rem 0.9rem", border: "1px solid #1a3d1a",
+        background: "#060e06", marginBottom: "1.4rem", borderRadius: "2px",
+      }}>
+        <span style={{
+          width: "7px", height: "7px", borderRadius: "50%", background: "#0f3",
+          boxShadow: "0 0 8px #0f3", animation: "pulse 1.6s ease-in-out infinite",
+        }} />
+        <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f", fontSize: "0.72rem", letterSpacing: "0.1em" }}>
+          CURRENTLY @ AMAZON HQ2 — ARLINGTON, VA
+        </span>
+      </div>
       <div style={{ color: "#0f3", fontFamily: "'Share Tech Mono', monospace", fontSize: "0.9rem", marginBottom: "1rem", letterSpacing: "0.12em" }}>
         &gt;_ hello, world —
       </div>
@@ -127,13 +163,14 @@ function Hero({ scrollTo }) {
         }} />
       </div>
       <p style={{
-        marginTop: "2rem", maxWidth: "580px", color: "#8fa88f",
+        marginTop: "2rem", maxWidth: "600px", color: "#8fa88f",
         fontFamily: "'Share Tech Mono', monospace", fontSize: "0.88rem",
-        lineHeight: 1.85, letterSpacing: "0.03em",
+        lineHeight: 1.95, letterSpacing: "0.03em",
       }}>
-        Junior @ San Jose State University — B.S. Engineering Technology,<br />
-        concentration in Computer Network System Management. Building things<br />
-        with networks, code, and hardware. 3.6 GPA. CCST certified.
+        Network Development Engineering intern at Amazon's HQ2 campus. Junior @ San
+        Jose State University — Engineering Technology, concentration in Computer
+        Network System Management. Building toward a career in cloud networking and
+        AI infrastructure. CCST certified.
       </p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "2.2rem" }}>
         {skills.map(s => (
@@ -170,65 +207,65 @@ function Hero({ scrollTo }) {
 }
 
 function About() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setTimeout(() => setMounted(true), 200); }, []);
-  const interests = ["Homelab", "Soccer", "Gaming", "Music", "AI Infrastructure", "Networking"];
+  const interests = ["Homelab", "Soccer", "Gaming", "Music", "AI Infrastructure", "Cloud Networking"];
   return (
     <section style={{ minHeight: "80vh", padding: "7rem 2.5rem 4rem", maxWidth: "860px", margin: "0 auto" }}>
       <SectionHeader label="01" title="ABOUT" />
-      <div style={{
-        marginTop: "3rem", display: "grid",
-        gridTemplateColumns: "1fr 1fr", gap: "3rem",
-      }}>
-        <div>
-          <p style={{
-            fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f",
-            fontSize: "0.88rem", lineHeight: 2, letterSpacing: "0.03em",
-          }}>
-            I'm Prabal, a junior at SJSU studying Engineering Technology with a focus on networking and systems. I got into this field because I genuinely enjoy figuring out how things connect and communicate — whether that's configuring networks, writing automation scripts, or building hardware projects from scratch.
-          </p>
-          <p style={{
-            fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f",
-            fontSize: "0.88rem", lineHeight: 2, letterSpacing: "0.03em", marginTop: "1.2rem",
-          }}>
-            Lately I've been really into AI infrastructure — how large-scale AI systems are built, deployed, and kept running at scale. I recently interned at UL Solutions doing wireless compliance testing, and I'm currently looking for my next internship in network engineering, cloud, or AI infrastructure.
-          </p>
-          <a href="/resume.pdf" download style={{
-            display: "inline-block", marginTop: "2rem",
-            padding: "0.65rem 1.5rem", background: "#0f3", color: "#050a05",
-            fontFamily: "'Share Tech Mono', monospace", fontSize: "0.82rem",
-            textDecoration: "none", letterSpacing: "0.1em", fontWeight: "700",
-          }}>↓ DOWNLOAD_RESUME</a>
-        </div>
-        <div>
-          <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.7rem", letterSpacing: "0.18em", marginBottom: "1rem" }}>INTERESTS</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
-            {interests.map(i => (
-              <span key={i} style={{
-                padding: "0.4rem 0.9rem", border: "1px solid #1a3a1a",
-                background: "#040e04", color: "#0f3",
-                fontFamily: "'Share Tech Mono', monospace", fontSize: "0.78rem",
-                letterSpacing: "0.06em",
-              }}>{i}</span>
-            ))}
+      <Reveal>
+        <div className="about-grid" style={{
+          marginTop: "3rem", display: "grid",
+          gridTemplateColumns: "1fr 1fr", gap: "3rem",
+        }}>
+          <div>
+            <p style={{
+              fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f",
+              fontSize: "0.88rem", lineHeight: 2, letterSpacing: "0.03em",
+            }}>
+              I'm Prabal, a junior at SJSU studying Engineering Technology with a focus on networking and systems. I got into this field because I genuinely enjoy figuring out how things connect and communicate — whether that's configuring networks, writing automation scripts, or building hardware from scratch.
+            </p>
+            <p style={{
+              fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f",
+              fontSize: "0.88rem", lineHeight: 2, letterSpacing: "0.03em", marginTop: "1.2rem",
+            }}>
+              Right now I'm a Network Development Engineering intern at Amazon's HQ2, working on the infrastructure behind AWS and Amazon's services. Lately I've been really into AI infrastructure — how large-scale AI systems are built, deployed, and kept running. I'm building toward cloud and AI infra roles for Summer 2027.
+            </p>
+            <a href="/resume.pdf" download style={{
+              display: "inline-block", marginTop: "2rem",
+              padding: "0.65rem 1.5rem", background: "#0f3", color: "#050a05",
+              fontFamily: "'Share Tech Mono', monospace", fontSize: "0.82rem",
+              textDecoration: "none", letterSpacing: "0.1em", fontWeight: "700",
+            }}>↓ DOWNLOAD_RESUME</a>
           </div>
-          <div style={{ marginTop: "2.5rem", padding: "1.2rem 1.5rem", border: "1px solid #1a3a1a", background: "#040e04" }}>
-            <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.7rem", letterSpacing: "0.18em", marginBottom: "1rem" }}>QUICK FACTS</div>
-            {[
-              ["📍", "San Jose, California"],
-              ["🎓", "SJSU — May 2027"],
-              ["💼", "Open to Internships"],
-              ["🏆", "GPA: 3.6"],
-              ["📜", "CCST Certified"],
-            ].map(([icon, text]) => (
-              <div key={text} style={{ display: "flex", gap: "0.8rem", alignItems: "center", marginBottom: "0.6rem" }}>
-                <span style={{ fontSize: "0.85rem" }}>{icon}</span>
-                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f", fontSize: "0.82rem" }}>{text}</span>
-              </div>
-            ))}
+          <div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.7rem", letterSpacing: "0.18em", marginBottom: "1rem" }}>INTERESTS</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
+              {interests.map(i => (
+                <span key={i} style={{
+                  padding: "0.4rem 0.9rem", border: "1px solid #1a3a1a",
+                  background: "#040e04", color: "#0f3",
+                  fontFamily: "'Share Tech Mono', monospace", fontSize: "0.78rem",
+                  letterSpacing: "0.06em",
+                }}>{i}</span>
+              ))}
+            </div>
+            <div style={{ marginTop: "2.5rem", padding: "1.2rem 1.5rem", border: "1px solid #1a3a1a", background: "#040e04" }}>
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.7rem", letterSpacing: "0.18em", marginBottom: "1rem" }}>QUICK FACTS</div>
+              {[
+                ["💼", "Network Dev Eng Intern @ Amazon"],
+                ["📍", "San Jose, CA · Currently Arlington, VA"],
+                ["🎓", "SJSU — May 2027"],
+                ["🚀", "Seeking Summer 2027 internships"],
+                ["📜", "CCST Certified"],
+              ].map(([icon, text]) => (
+                <div key={text} style={{ display: "flex", gap: "0.8rem", alignItems: "flex-start", marginBottom: "0.6rem" }}>
+                  <span style={{ fontSize: "0.85rem" }}>{icon}</span>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#8fa88f", fontSize: "0.8rem", lineHeight: 1.5 }}>{text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -237,22 +274,22 @@ const SKILL_GROUPS = [
   {
     label: "Networking & Security",
     color: "#0f3",
-    skills: ["TCP/IP", "UDP", "DNS", "DHCP", "VLANs", "Subnetting", "NAT", "IPv4/IPv6", "OSPF", "VPNs", "Firewalls", "BGP"],
+    skills: ["TCP/IP", "UDP", "DNS", "DHCP", "VLANs", "Subnetting", "NAT", "IPv4/IPv6", "OSPF", "BGP", "VPNs", "Firewalls"],
   },
   {
-    label: "Programming",
-    color: "#3af",
-    skills: ["Python", "Java", "SQL", "Bash", "Pandas", "Web Scraping", "Data Analysis", "Config Scripting"],
-  },
-  {
-    label: "Cloud & Virtualization",
+    label: "Cloud & Infrastructure",
     color: "#fa3",
-    skills: ["AWS EC2", "S3", "IAM", "Cloud Networking", "Virtual Machines", "Docker"],
+    skills: ["AWS EC2", "S3", "IAM", "VPC", "ALB", "KMS", "Lambda", "CloudWatch", "Systems Manager", "Docker"],
+  },
+  {
+    label: "Programming & Automation",
+    color: "#3af",
+    skills: ["Python", "Java", "SQL", "Bash", "REST APIs", "Apify", "Pandas", "Web Scraping", "Config Scripting"],
   },
   {
     label: "Systems & Tools",
     color: "#a3f",
-    skills: ["Linux", "Windows", "macOS", "Cisco CLI", "Arduino", "Raspberry Pi", "Wireshark", "Packet Tracer"],
+    skills: ["Linux", "Windows", "macOS", "Cisco CLI", "Wireshark", "Packet Tracer", "Arduino", "Raspberry Pi"],
   },
 ];
 
@@ -261,26 +298,28 @@ function Skills() {
     <section style={{ minHeight: "80vh", padding: "7rem 2.5rem 4rem", maxWidth: "960px", margin: "0 auto" }}>
       <SectionHeader label="02" title="SKILLS" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem", marginTop: "3rem" }}>
-        {SKILL_GROUPS.map((group) => (
-          <div key={group.label} style={{
-            border: "1px solid #1a2a1a", background: "#040a04", padding: "1.5rem",
-          }}>
+        {SKILL_GROUPS.map((group, gi) => (
+          <Reveal key={group.label} delay={gi * 0.08}>
             <div style={{
-              fontFamily: "'Share Tech Mono', monospace", fontSize: "0.7rem",
-              letterSpacing: "0.18em", color: group.color, marginBottom: "1.2rem",
-              borderBottom: `1px solid ${group.color}22`, paddingBottom: "0.6rem",
-            }}>{group.label}</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-              {group.skills.map(s => (
-                <span key={s} style={{
-                  padding: "0.25rem 0.6rem", border: `1px solid ${group.color}33`,
-                  background: `${group.color}08`, color: "#8fa88f",
-                  fontFamily: "'Share Tech Mono', monospace", fontSize: "0.72rem",
-                  letterSpacing: "0.05em",
-                }}>{s}</span>
-              ))}
+              border: "1px solid #1a2a1a", background: "#040a04", padding: "1.5rem", height: "100%",
+            }}>
+              <div style={{
+                fontFamily: "'Share Tech Mono', monospace", fontSize: "0.7rem",
+                letterSpacing: "0.18em", color: group.color, marginBottom: "1.2rem",
+                borderBottom: `1px solid ${group.color}22`, paddingBottom: "0.6rem",
+              }}>{group.label}</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {group.skills.map(s => (
+                  <span key={s} style={{
+                    padding: "0.25rem 0.6rem", border: `1px solid ${group.color}33`,
+                    background: `${group.color}08`, color: "#8fa88f",
+                    fontFamily: "'Share Tech Mono', monospace", fontSize: "0.72rem",
+                    letterSpacing: "0.05em",
+                  }}>{s}</span>
+                ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -290,19 +329,35 @@ function Skills() {
 const PROJECTS = [
   {
     name: "JobRadar",
-    subtitle: "Automated LinkedIn Internship Scraper",
+    subtitle: "Automated Internship Scraper",
     date: "Mar 2026",
     tags: ["Python", "Apify", "Google Sheets API", "REST API", "Automation"],
-    desc: "Built an automated job scraper that searches LinkedIn for internship listings across 20 keywords, filters and deduplicates results, and writes them directly to a Google Sheet. Runs weekly via cron — zero manual searching required.",
-    highlight: "20 keywords · fully automated · REST APIs",
+    desc: "Built an automated job scraper that searches across keywords for internship listings, filters and deduplicates results, and writes them straight into a Google Sheet. Runs on a schedule — zero manual searching required.",
+    highlight: "Fully automated · REST APIs · live on GitHub",
     github: "https://github.com/singhprabal1/JobRadar",
+  },
+  {
+    name: "Cloudathon @ SJSU 2026",
+    subtitle: "AWS Jam — 2nd Place",
+    date: "2026",
+    tags: ["AWS", "ALB", "KMS", "Lambda", "Systems Manager"],
+    desc: "Placed 2nd in SJSU's AWS Jam competition, completing all 14 challenges with my team. Owned Application Load Balancer configuration, KMS encryption, serverless audit logging, and patch management across the environment.",
+    highlight: "🏆 2nd place · 14/14 challenges solved",
+  },
+  {
+    name: "Wireless Compliance Automation",
+    subtitle: "UL Solutions — Internship",
+    date: "2025",
+    tags: ["Python", "Bash", "RF Testing", "Automation"],
+    desc: "Automated wireless compliance test workflows at UL Solutions using Python and Bash. Reduced manual test time and improved reproducibility across Wi-Fi, BLE, and LTE evaluations. Operated SAR testing systems.",
+    highlight: "Industry: RF / Regulatory Compliance",
   },
   {
     name: "Hear the Light",
     subtitle: "LED Sound Level Meter",
     date: "May 2025",
     tags: ["Arduino", "Embedded Systems", "Signal Processing", "C++"],
-    desc: "Designed and built a real-time sound-level meter using an Arduino Uno and LED array to visualize ambient noise. Integrated a microphone sensor to capture live audio input and programmed dynamic LED responses mapped to decibel thresholds.",
+    desc: "Designed and built a real-time sound-level meter using an Arduino Uno and LED array to visualize ambient noise. Integrated a microphone sensor and programmed dynamic LED responses mapped to decibel thresholds.",
     highlight: "Hardware + firmware from scratch",
   },
   {
@@ -310,16 +365,8 @@ const PROJECTS = [
     subtitle: "Autonomous Navigation",
     date: "Dec 2023",
     tags: ["Arduino", "IR Sensors", "PID Control", "Robotics"],
-    desc: "Built an autonomous robot using Arduino and infrared sensors that achieves >95% tracking accuracy across varied surfaces and speeds. Calibrated sensor arrays and implemented control logic to handle edge cases and dynamic course changes.",
+    desc: "Built an autonomous robot using Arduino and infrared sensors achieving >95% tracking accuracy across varied surfaces and speeds. Calibrated sensor arrays and implemented control logic for edge cases.",
     highlight: "95% sensor accuracy · 40% control improvement",
-  },
-  {
-    name: "Wireless Compliance Automation",
-    subtitle: "UL Solutions — Internship",
-    date: "2025",
-    tags: ["Python", "Bash", "RF Testing", "Automation"],
-    desc: "Automated wireless compliance test workflows at UL Solutions using Python and Bash scripts. Reduced manual test time significantly and improved reproducibility across Wi-Fi, BLE, and LTE evaluations. Operated SAR testing systems.",
-    highlight: "Industry: RF / Regulatory Compliance",
   },
 ];
 
@@ -330,46 +377,48 @@ function Projects() {
       <SectionHeader label="03" title="PROJECTS" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem", marginTop: "3rem" }}>
         {PROJECTS.map((p, i) => (
-          <div key={i} onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)} style={{
-            border: `1px solid ${hovered === i ? "#0f3" : "#1a2a1a"}`,
-            background: hovered === i ? "#060e06" : "#040a04",
-            padding: "1.8rem", cursor: "default",
-            transition: "border-color 0.25s, background 0.25s",
-            position: "relative", overflow: "hidden",
-          }}>
-            {hovered === i && <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-              background: "linear-gradient(90deg, transparent, #0f3, transparent)",
-            }} />}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
-              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.7rem", letterSpacing: "0.1em" }}>{p.date}</span>
-              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#2a4a2a", fontSize: "0.7rem" }}>#{String(i+1).padStart(2,"0")}</span>
+          <Reveal key={i} delay={(i % 2) * 0.08}>
+            <div onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)} style={{
+              border: `1px solid ${hovered === i ? "#0f3" : "#1a2a1a"}`,
+              background: hovered === i ? "#060e06" : "#040a04",
+              padding: "1.8rem", cursor: "default", height: "100%",
+              transition: "border-color 0.25s, background 0.25s",
+              position: "relative", overflow: "hidden",
+            }}>
+              {hovered === i && <div style={{
+                position: "absolute", top: 0, left: 0, right: 0, height: "2px",
+                background: "linear-gradient(90deg, transparent, #0f3, transparent)",
+              }} />}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.7rem", letterSpacing: "0.1em" }}>{p.date}</span>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#2a4a2a", fontSize: "0.7rem" }}>#{String(i+1).padStart(2,"0")}</span>
+              </div>
+              <h3 style={{ fontFamily: "'Share Tech Mono', monospace", color: "#e8ffe8", fontSize: "1.05rem", margin: "0 0 0.2rem", letterSpacing: "0.05em" }}>{p.name}</h3>
+              <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a7a4a", fontSize: "0.75rem", margin: "0 0 1rem", letterSpacing: "0.08em" }}>{p.subtitle}</p>
+              <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#6b8a6b", fontSize: "0.8rem", lineHeight: 1.75, marginBottom: "1.2rem" }}>{p.desc}</p>
+              <div style={{ marginBottom: "1rem", padding: "0.5rem 0.8rem", background: "#0a180a", borderLeft: "2px solid #0f3" }}>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.72rem" }}>{p.highlight}</span>
+              </div>
+              {p.github && (
+                <a href={p.github} target="_blank" rel="noreferrer" style={{
+                  display: "inline-block", marginBottom: "1rem",
+                  fontFamily: "'Share Tech Mono', monospace", fontSize: "0.72rem",
+                  color: "#0f3", letterSpacing: "0.08em", textDecoration: "none",
+                  border: "1px solid #1a3a1a", padding: "0.3rem 0.7rem",
+                  transition: "background 0.2s",
+                }}>↗ VIEW_ON_GITHUB</a>
+              )}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+                {p.tags.map(t => (
+                  <span key={t} style={{
+                    fontFamily: "'Share Tech Mono', monospace", fontSize: "0.65rem",
+                    padding: "0.2rem 0.5rem", border: "1px solid #1a3a1a", color: "#4a6a4a",
+                    letterSpacing: "0.06em",
+                  }}>{t}</span>
+                ))}
+              </div>
             </div>
-            <h3 style={{ fontFamily: "'Share Tech Mono', monospace", color: "#e8ffe8", fontSize: "1.05rem", margin: "0 0 0.2rem", letterSpacing: "0.05em" }}>{p.name}</h3>
-            <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a7a4a", fontSize: "0.75rem", margin: "0 0 1rem", letterSpacing: "0.08em" }}>{p.subtitle}</p>
-            <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#6b8a6b", fontSize: "0.8rem", lineHeight: 1.75, marginBottom: "1.2rem" }}>{p.desc}</p>
-            <div style={{ marginBottom: "1rem", padding: "0.5rem 0.8rem", background: "#0a180a", borderLeft: "2px solid #0f3" }}>
-              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.72rem" }}>{p.highlight}</span>
-            </div>
-            {p.github && (
-              <a href={p.github} target="_blank" rel="noreferrer" style={{
-                display: "inline-block", marginBottom: "1rem",
-                fontFamily: "'Share Tech Mono', monospace", fontSize: "0.72rem",
-                color: "#0f3", letterSpacing: "0.08em", textDecoration: "none",
-                border: "1px solid #1a3a1a", padding: "0.3rem 0.7rem",
-                transition: "background 0.2s",
-              }}>↗ VIEW_ON_GITHUB</a>
-            )}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-              {p.tags.map(t => (
-                <span key={t} style={{
-                  fontFamily: "'Share Tech Mono', monospace", fontSize: "0.65rem",
-                  padding: "0.2rem 0.5rem", border: "1px solid #1a3a1a", color: "#4a6a4a",
-                  letterSpacing: "0.06em",
-                }}>{t}</span>
-              ))}
-            </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -377,6 +426,16 @@ function Projects() {
 }
 
 const EXPERIENCE = [
+  {
+    role: "Network Development Engineer Intern",
+    company: "Amazon (AWS) — HQ2, Arlington VA",
+    dates: "May 2026 – Aug 2026",
+    bullets: [
+      "Working on large-scale network infrastructure at Amazon's HQ2 campus, supporting the systems that power AWS and Amazon services.",
+      "Building hands-on experience with enterprise-scale networking, automation, and cloud infrastructure operations.",
+      "Collaborating with engineering teams on real production networking challenges at global scale.",
+    ],
+  },
   {
     role: "Testing Engineer Intern",
     company: "UL Solutions",
@@ -411,59 +470,65 @@ function Experience() {
       <SectionHeader label="04" title="EXPERIENCE" />
       <div style={{ marginTop: "3rem", display: "flex", flexDirection: "column", gap: "2.5rem" }}>
         {EXPERIENCE.map((e, i) => (
-          <div key={i} style={{ borderLeft: "2px solid #1a3a1a", paddingLeft: "1.8rem", position: "relative" }}>
-            <div style={{
-              position: "absolute", left: "-5px", top: "4px",
-              width: "8px", height: "8px", background: "#0f3", borderRadius: "50%",
-            }} />
-            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.4rem" }}>
-              <div>
-                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#e8ffe8", fontSize: "1rem", letterSpacing: "0.05em" }}>{e.role}</span>
-                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.85rem", marginLeft: "0.8rem" }}>@ {e.company}</span>
+          <Reveal key={i} delay={i * 0.05}>
+            <div style={{ borderLeft: "2px solid #1a3a1a", paddingLeft: "1.8rem", position: "relative" }}>
+              <div style={{
+                position: "absolute", left: "-5px", top: "4px",
+                width: "8px", height: "8px", background: "#0f3", borderRadius: "50%",
+              }} />
+              <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.4rem" }}>
+                <div>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#e8ffe8", fontSize: "1rem", letterSpacing: "0.05em" }}>{e.role}</span>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.85rem", marginLeft: "0.8rem" }}>@ {e.company}</span>
+                </div>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem" }}>{e.dates}</span>
               </div>
-              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem" }}>{e.dates}</span>
+              <ul style={{ margin: "0.8rem 0 0", paddingLeft: "0", listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                {e.bullets.map((b, j) => (
+                  <li key={j} style={{ fontFamily: "'Share Tech Mono', monospace", color: "#7a987a", fontSize: "0.82rem", lineHeight: 1.75, display: "flex", gap: "0.7rem" }}>
+                    <span style={{ color: "#0f3", flexShrink: 0 }}>▸</span>{b}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul style={{ margin: "0.8rem 0 0", paddingLeft: "0", listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-              {e.bullets.map((b, j) => (
-                <li key={j} style={{ fontFamily: "'Share Tech Mono', monospace", color: "#7a987a", fontSize: "0.82rem", lineHeight: 1.75, display: "flex", gap: "0.7rem" }}>
-                  <span style={{ color: "#0f3", flexShrink: 0 }}>▸</span>{b}
-                </li>
-              ))}
-            </ul>
-          </div>
+          </Reveal>
         ))}
       </div>
 
-      <div style={{ marginTop: "4rem" }}>
-        <h3 style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem", letterSpacing: "0.18em", marginBottom: "1.5rem" }}>CERTIFICATIONS</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
-          {CERTS.map((c, i) => (
-            <div key={i} style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              padding: "0.9rem 1.2rem", border: "1px solid #1a2a1a", background: "#040a04",
-              flexWrap: "wrap", gap: "0.5rem",
-            }}>
-              <div>
-                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#c8e8c8", fontSize: "0.85rem" }}>{c.name}</span>
-                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem", marginLeft: "0.8rem" }}>· {c.issuer}</span>
+      <Reveal>
+        <div style={{ marginTop: "4rem" }}>
+          <h3 style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem", letterSpacing: "0.18em", marginBottom: "1.5rem" }}>CERTIFICATIONS</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+            {CERTS.map((c, i) => (
+              <div key={i} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "0.9rem 1.2rem", border: "1px solid #1a2a1a", background: "#040a04",
+                flexWrap: "wrap", gap: "0.5rem",
+              }}>
+                <div>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#c8e8c8", fontSize: "0.85rem" }}>{c.name}</span>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem", marginLeft: "0.8rem" }}>· {c.issuer}</span>
+                </div>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.75rem" }}>{c.date}</span>
               </div>
-              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.75rem" }}>{c.date}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ marginTop: "3rem" }}>
-        <h3 style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem", letterSpacing: "0.18em", marginBottom: "1rem" }}>EDUCATION</h3>
-        <div style={{ border: "1px solid #1a3a1a", padding: "1.2rem 1.5rem", background: "#040e04" }}>
-          <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#e8ffe8", fontSize: "0.95rem" }}>B.S. Engineering Technology</div>
-          <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.78rem", marginTop: "0.3rem" }}>Computer Network System Management · Minor: Business, CS</div>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", marginTop: "0.8rem" }}>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.8rem" }}>San Jose State University</span>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.78rem" }}>GPA: 3.6 · May 2027</span>
+            ))}
           </div>
         </div>
-      </div>
+      </Reveal>
+
+      <Reveal>
+        <div style={{ marginTop: "3rem" }}>
+          <h3 style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.75rem", letterSpacing: "0.18em", marginBottom: "1rem" }}>EDUCATION</h3>
+          <div style={{ border: "1px solid #1a3a1a", padding: "1.2rem 1.5rem", background: "#040e04" }}>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#e8ffe8", fontSize: "0.95rem" }}>B.S. Engineering Technology</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.78rem", marginTop: "0.3rem" }}>Computer Network System Management · Minor: Business, CS</div>
+            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", marginTop: "0.8rem" }}>
+              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#0f3", fontSize: "0.8rem" }}>San Jose State University</span>
+              <span style={{ fontFamily: "'Share Tech Mono', monospace", color: "#4a6a4a", fontSize: "0.78rem" }}>May 2027</span>
+            </div>
+          </div>
+        </div>
+      </Reveal>
     </section>
   );
 }
@@ -479,13 +544,13 @@ function Contact() {
     <section id="contact-section" style={{ minHeight: "80vh", padding: "7rem 2.5rem 4rem", maxWidth: "700px", margin: "0 auto" }}>
       <SectionHeader label="05" title="CONTACT" />
       <p style={{ fontFamily: "'Share Tech Mono', monospace", color: "#6b8a6b", fontSize: "0.88rem", lineHeight: 1.85, marginTop: "2rem", maxWidth: "480px" }}>
-        Open to internships, collaborations, and interesting problems. Reach out — response time is fast.
+        Open to Summer 2027 internships, collaborations, and interesting problems. Reach out — response time is fast.
       </p>
       <div style={{ marginTop: "3rem", display: "flex", flexDirection: "column", gap: "1.2rem" }}>
         {[
           { label: "EMAIL", value: "prabals.0111@gmail.com", action: copy, actionLabel: copied ? "COPIED!" : "COPY" },
           { label: "PHONE", value: "(408) 210-4700" },
-          { label: "LOCATION", value: "San Jose, California" },
+          { label: "LOCATION", value: "San Jose, CA · Arlington, VA" },
         ].map((item, i) => (
           <div key={i} style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -546,6 +611,25 @@ function SectionHeader({ label, title }) {
   );
 }
 
+function BackToTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!show) return null;
+  return (
+    <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{
+      position: "fixed", bottom: "1.5rem", right: "1.5rem", zIndex: 200,
+      width: "42px", height: "42px", border: "1px solid #0f3",
+      background: "rgba(6,14,6,0.9)", color: "#0f3", cursor: "pointer",
+      fontFamily: "'Share Tech Mono', monospace", fontSize: "1.1rem",
+      backdropFilter: "blur(8px)",
+    }} aria-label="Back to top">↑</button>
+  );
+}
+
 export default function App() {
   const [active, setActive] = useState("home");
   const sectionRefs = {
@@ -579,6 +663,7 @@ export default function App() {
         ::-webkit-scrollbar-track { background: #040a04; }
         ::-webkit-scrollbar-thumb { background: #1a4a1a; }
         @keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0 } }
+        @keyframes pulse { 0%,100% { opacity:1; transform:scale(1) } 50% { opacity:0.4; transform:scale(0.8) } }
         @keyframes scanline {
           0% { transform: translateY(-100%); }
           100% { transform: translateY(100vh); }
@@ -596,13 +681,16 @@ export default function App() {
             linear-gradient(90deg, rgba(0,255,51,0.025) 1px, transparent 1px);
           background-size: 48px 48px;
         }
-        @media (max-width: 600px) {
-          .about-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 700px) {
+          .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+          nav { padding: 0 1.2rem !important; }
+          nav > div { gap: 1rem !important; }
         }
       `}</style>
       <div className="scanline" />
       <div className="grid-bg" />
       <Navbar active={active} setActive={scrollTo} />
+      <BackToTop />
       <div style={{ position: "relative", zIndex: 1 }}>
         <div ref={sectionRefs.home}><Hero scrollTo={scrollTo} /></div>
         <div ref={sectionRefs.about}><About /></div>

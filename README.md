@@ -1,16 +1,35 @@
-# React + Vite
+# prabalsingh.vercel.app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+My personal portfolio: a single-page React + Vite site with a terminal-inspired look.
 
-Currently, two official plugins are available:
+## Develop
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # local dev server
+npm run lint     # ESLint
+npm run build    # production build in dist/
+npm run preview  # serve the production build
+```
 
-## React Compiler
+Deployed on Vercel from `main`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Where things live
 
-## Expanding the ESLint configuration
+| What | Where |
+|---|---|
+| All copy and data (hero, about, experience, projects, skills, contact) | `src/content.js` |
+| Page sections | `src/components/` |
+| Shared hooks (typing effect, reduced motion, active nav, reveal) | `src/hooks.js` |
+| Styles and design tokens (colors, fonts, spacing) | `src/index.css` |
+| Page title, description, social-sharing tags | `index.html` |
+| Résumé, favicon, social preview image, robots/sitemap | `public/` |
+| Source for the social preview image (regeneration command inside) | `scripts/og-image.html` |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To change wording or add a project, edit `src/content.js`; the components render whatever is there.
+
+## Accessibility notes
+
+- Animations (typing, glitch, scanline, fade-in) turn off under `prefers-reduced-motion`.
+- Sections have real anchors (`/#experience`, `/#projects`, …), and the nav uses links.
+- Text colors meet WCAG AA contrast against the dark backgrounds; interactive targets are at least 40–44px tall.
